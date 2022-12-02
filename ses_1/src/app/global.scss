@@ -1,0 +1,53 @@
+/** @format */
+
+// general
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// helpers
+$spaceamounts: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+@each $space in $spaceamounts {
+  .p-#{$space} {
+    padding: #{$space}rem !important;
+  }
+  .m-#{$space} {
+    margin: #{$space}rem !important;
+  }
+
+  .FG-#{$space} {
+    gap: #{$space}rem !important;
+  }
+}
+
+.flex {
+  display: flex;
+
+  &.JC-SB {
+    justify-content: space-between;
+  }
+  &.JC-SA {
+    justify-content: space-around;
+  }
+  &.JC-SE {
+    justify-content: space-evenly;
+  }
+  &.JC-C {
+    justify-content: center;
+  }
+  &.JC-E {
+    justify-content: flex-end;
+  }
+  &.FW-wrap {
+    flex-wrap: wrap;
+  }
+  &.FD-C {
+    flex-direction: column;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
