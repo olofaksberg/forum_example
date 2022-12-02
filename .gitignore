@@ -1,0 +1,8 @@
+node_modules
+
+package-lock.json
+
+.env
+
+/ses_1/package-lock.json
+/ses_1/node_modules
