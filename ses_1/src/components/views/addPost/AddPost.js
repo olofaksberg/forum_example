@@ -1,28 +1,29 @@
 /** @format */
 
-import { useState } from "react";
+import { useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { PostsContext, UserContext } from "../../../app/App";
+
+import { POST } from "../../../utils/http";
 
 import "./addPost.style.scss";
 
-export const AddPost = ({ setPosts, user }) => {
+export const AddPost = () => {
   const navigate = useNavigate();
 
-  const [textInput, setTextInput] = useState("");
+  const { user } = useContext(UserContext);
+  const { setPosts } = useContext(PostsContext);
+
+  const textInput = useRef(null);
 
   const handleSubmit = async () => {
     const postContent = {
       poster: user.name,
-      text: textInput,
+      text: textInput.current.value,
     };
 
-    const res = await fetch("http://localhost:5500/create_post", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postContent),
-    }).then((response) => response.json());
+    const res = await POST("/create_post", postContent);
 
     if (res.success) {
       setPosts((prev) => [res.data, ...prev]);
@@ -37,7 +38,7 @@ export const AddPost = ({ setPosts, user }) => {
           cols="30"
           rows="10"
           placeholder="Whatsup?"
-          onChange={(e) => setTextInput(e.target.value)}
+          ref={textInput}
         ></textarea>
       </form>
 

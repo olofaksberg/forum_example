@@ -1,27 +1,26 @@
 /** @format */
 
-import { useState } from "react";
+import { useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../../app/App";
 
-export const Home = ({ setUser }) => {
+import { POST } from "../../../utils/http";
+
+export const Home = () => {
   const navigate = useNavigate();
 
-  const [usernameInput, setUsernameInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+  const { setUser } = useContext(UserContext);
+
+  const usernameInput = useRef(null);
+  const passwordInput = useRef(null);
 
   const handleLogin = async () => {
     const userContent = {
-      name: usernameInput,
-      password: passwordInput,
+      name: usernameInput.current.value,
+      password: passwordInput.current.value
     };
 
-    const res = await fetch("http://localhost:5500/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userContent),
-    }).then((response) => response.json());
+    const res = await POST("/login", userContent);
 
     if (res.success) {
       setUser(res.data);
@@ -31,17 +30,11 @@ export const Home = ({ setUser }) => {
 
   const handleSignup = async () => {
     const userContent = {
-      name: usernameInput,
-      password: passwordInput,
+      name: usernameInput.current.value,
+      password: passwordInput.current.value
     };
 
-    const res = await fetch("http://localhost:5500/create_user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userContent),
-    }).then((response) => response.json());
+    const res = await POST("/create_user", userContent);
 
     if (res.success) {
       setUser(res.data);
@@ -54,13 +47,13 @@ export const Home = ({ setUser }) => {
       <input
         type="text"
         placeholder="Username"
-        onChange={(e) => setUsernameInput(e.target.value)}
+        ref={usernameInput}
       />
 
       <input
         type="password"
         placeholder="Password"
-        onChange={(e) => setPasswordInput(e.target.value)}
+        ref={passwordInput}
       />
 
       <button onClick={handleLogin}>sign in</button>

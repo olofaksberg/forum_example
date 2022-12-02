@@ -1,10 +1,16 @@
 /** @format */
 
+import { useContext } from "react";
+
 import { Post } from "../post/Post";
+
+import { PostsContext } from "../../../../app/App";
 
 import "./postFeed.style.scss";
 
-export const PostFeed = ({ posts }) => {
+export const PostFeed = () => {
+  const { posts } = useContext(PostsContext);
+
   return (
     <>
       <section className="flex FD-C FG-2">
